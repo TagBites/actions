@@ -1,0 +1,23 @@
+name: "Build .NET solution"
+description: "Build .NET solution ..."
+inputs:
+  dotnet-version:
+    description: 'The .NET version to use'
+    default: '5.0.x'
+    required: false
+
+runs:
+  using: "composite"
+  steps: 
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ inputs.dotnet-version }}
+
+    - name: Restore dependencies
+      run: dotnet restore
+      shell: bash
+
+    - name: Build
+      run: dotnet build --no-restore -c Release
+      shell: bash
