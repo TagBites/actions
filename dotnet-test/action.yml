@@ -1,0 +1,9 @@
+name: "Test .NET solution"
+description: "Test .NET solution ..."
+
+runs:
+  using: "composite"
+  steps: 
+    - name: Test
+      run: dotnet test --no-build --verbosity minimal -c Release
+      shell: bash
