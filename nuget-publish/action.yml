@@ -1,0 +1,26 @@
+name: "Publish NuGet package"
+description: "Publish NuGet package ..."
+inputs:
+  nuget-source:
+    description: 'The nuget source uri.'
+    required: true
+  nuget-key:
+    description: 'The nuget api key.'
+    required: true
+
+runs:
+  using: "composite"
+  steps:     
+    - name: Find nuget packages
+      id: nuget-files
+      run: |
+        echo "::set-output name=FILELIST::$(find . -name '*.nupkg' -print)"    
+
+    - name: Push
+      run: |
+        IFS="," read -a myarray <<< ${{ steps.nuget-files.outputs.FILELIST }}
+        for i in "${myarray[@]}"; do
+          echo "${i}"
+          dotnet nuget push "${i}" --source "${{ inputs.nuget-source }}" --api-key "${{ inputs.nuget-key }}"
+        done
+      shell: bash
