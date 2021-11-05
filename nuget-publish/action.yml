@@ -11,16 +11,9 @@ inputs:
 runs:
   using: "composite"
   steps:     
-    - name: Find nuget packages
-      id: nuget-files
-      run: |
-        echo "::set-output name=FILELIST::$(find . -name '*.nupkg' -print)"    
-      shell: bash
-
     - name: Push
       run: |
-        IFS="," read -a myarray <<< ${{ steps.nuget-files.outputs.FILELIST }}
-        for i in "${myarray[@]}"; do
+        for i in $(find . -name "*.nupkg" -type f -print); do
           echo "${i}"
           dotnet nuget push "${i}" --source "${{ inputs.nuget-source }}" --api-key "${{ inputs.nuget-key }}"
         done
