@@ -3,7 +3,7 @@ description: "Build .NET solution ..."
 inputs:
   dotnet-version:
     description: 'The .NET version to use'
-    default: '6.0.x'
+    default: '7.0.x'
     required: false
   solution:
     description: 'Solution to build'
@@ -14,7 +14,7 @@ runs:
   using: "composite"
   steps: 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ inputs.dotnet-version }}
 
