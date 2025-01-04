@@ -3,7 +3,7 @@ description: "Build .NET solution ..."
 inputs:
   dotnet-version:
     description: 'The .NET version to use'
-    default: '7.0.x'
+    default: '9.0.x'
     required: false
   solution:
     description: 'Solution to build'
