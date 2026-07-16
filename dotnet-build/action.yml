@@ -3,7 +3,7 @@ description: "Build .NET solution ..."
 inputs:
   dotnet-version:
     description: 'The .NET version to use'
-    default: '9.0.x'
+    default: '10.0.x'
     required: false
   solution:
     description: 'Solution to build'
@@ -14,14 +14,15 @@ runs:
   using: "composite"
   steps: 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v6
       with:
         dotnet-version: ${{ inputs.dotnet-version }}
+        dotnet-quality: 'ga'
 
     - name: Restore dependencies
-      run: dotnet restore ${{ inputs.solution }}
+      run: dotnet restore --nologo ${{ inputs.solution }}
       shell: bash
 
     - name: Build
-      run: dotnet build --no-restore -c Release ${{ inputs.solution }}
+      run: dotnet build --no-restore --nologo -c Release ${{ inputs.solution }}
       shell: bash
